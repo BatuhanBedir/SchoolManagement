@@ -1,0 +1,96 @@
+﻿@{
+    ViewData["Title"] = "Students";
+} 
+<div id="fail"></div>
+<div id="letMeSee"></div>
+
+
+
+
+
+
+
+@*
+@using SchoolManagement.Application.Features.Queries.GetAllStudentsWithSchools
+@model List<Student>*@
+@*<script src="~/lib/jquery/dist/jquery.min.js"></script>*@
+
+@*<div class="panel panel-primary">
+    <div class="panel-heading">
+        Student
+    </div>
+    <div class="panel-body">
+        <table class="table table-bordered" id="studentTable">
+            <tr>
+                <td>FirstName</td>
+                <td>LastName</td>
+                <td>School</td>
+                <td>Photo</td>
+            </tr>
+        </table>
+    </div>
+</div>*@
+
+
+
+
+
+@*<div class="row">
+    <table class="table table-bordered table-striped table-responsive">
+        <thead>
+            <tr>
+                <th>FirstName</th>
+                <th>LastName</th>
+            </tr>
+        </thead>
+        <tbody id="studentTable"></tbody>
+    </table>
+</div>*@
+
+@*<script>
+    $(document).ready(function () {
+        var myUrl = baseUrl + "Students";
+        $.ajax({
+            type: "GET",
+            url: myUrl,
+            contentType: "application/json",
+            datatype: "json",
+            success: function (response) {
+                $.each(response, function (i, item) {
+                    var rows = "<tr>" +
+                        "<td id='firstName'>" + item["firstName"] + "</td>" +
+                        "<td id='lastName'>" + item["lastName"] + "</td>" +
+                        "</tr>"
+                    $("#studentTable").append(rows);
+                });
+            },
+            error: function (msg) {
+                alert(msg)
+            }
+        });
+    })
+</script>*@
+@*<script>
+    $("#studentsButton").click(function () {
+        var myUrl = baseUrl + "Students";
+        $.ajax({
+            type: "GET",
+            url: myUrl,
+            contentType: "application/json",
+            datatype: "json",
+            success: function (response) {
+                $.each(response, function (i, item) {
+                    alert(i)
+                    var rows = "<tr>" +
+                        "<td id='firstName'>" + item["firstName"] + "</td>" +
+                        "<td id='lastName'>" + item["lastName"] + "</td>" +
+                        "</tr>"
+                    $("#studentTable").append(rows);
+                });
+            },
+            error: function (msg) {
+                alert(msg)
+            }
+        });
+    })
+</script>*@

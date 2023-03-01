@@ -1,0 +1,38 @@
+﻿@model StudentCreateDTO
+@{
+    ViewData["Title"] = "Create Student";
+} 
+<partial name="_ValidationScriptsPartial" />
+<h3>Create Student</h3>
+
+<hr />
+
+<div asp-validation-summary="All"></div>
+
+
+<form asp-action="Create" id="createStudentForm">
+    <div class="form-group">
+        <label asp-for="FirstName" class="control-label"></label>
+        <input asp-for="FirstName" class="form-control" id="FirstName" />
+        <span asp-validation-for="FirstName" class="text-danger"></span>
+        <br />
+    </div>
+    <div class="form-group">
+        <label asp-for="LastName" class="control-label"></label>
+        <input asp-for="LastName" class="form-control" id="LastName" />
+        <span asp-validation-for="LastName" class="text-danger"></span>
+        <br />
+    </div>
+    <div class="form-group">
+        <label class="control-label">School</label>
+        <select asp-for="SchoolId" class="form-control" asp-items="ViewBag.SchoolId" id="SchoolId"></select>
+        <span asp-validation-for="SchoolId" class="text-danger"></span>
+        <br />
+    </div>
+    <div class="form-group">
+        <label asp-for="Photo">Upload photo(jpeg/gif/png):</label>
+        <input type="file" asp-for="Photo" id="Photo" accept="image/jpeg,image/gif,image/png,application" class="form-control " />
+    </div>
+    <br />
+    <div class="form-group"><a class="btn btn-outline-primary" onclick="CreateStudent()">Create</a></div>
+</form>

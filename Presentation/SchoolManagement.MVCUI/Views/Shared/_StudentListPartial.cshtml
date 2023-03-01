@@ -1,0 +1,83 @@
+﻿@model StudentsIndexVM
+@{
+    ViewData["Title"] = "Students";
+}
+@if (Model.LoggedInUserRole == "Manager")
+{
+    <p>
+        <a id="Create" class="btn btn-outline-primary" onclick="GetSchoolsList()">Create New</a>
+   </p>
+} 
+<table class="table">
+    <thead>
+        <tr>
+            <th>Photo</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>School</th>
+            @if (Model.LoggedInUserRole == "Manager"){
+
+            <th>Transaction</th>
+            }
+        </tr>
+        </thead>
+    <tbody>
+        @foreach (var item in Model.Students)
+        {
+            var tm = "#deleteModal" + item.Id;
+            var mid = "deleteModal" + item.Id;
+            <tr>
+                @if (item.PhotoPath != null)
+                {
+                    <td>
+                        <img src=@item.PhotoPath width="100" height="100" />
+                    </td>
+                }
+                else
+                {
+                    <td>
+                        <img src="@Url.Content("~/images/default.png")" width="100" height="100" />
+                    </td>
+                }
+                <td>@Html.DisplayFor(modelItem => item.FirstName)</td>
+                <td>@Html.DisplayFor(modelItem => item.LastName)</td>
+                @if (item.School != null)
+                {
+                    <td>@Html.DisplayFor(modelItem => item.School.Name)</td>
+                }
+                else
+                {
+                       <td>----</td>
+                }
+                @if (Model.LoggedInUserRole == "Manager"){
+                <td>
+                    <a id="Update" class="btn btn-outline-primary" onclick="GetUpdateStudent('@item.Id')">Update</a>
+                    <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="@tm" >
+                        Delete
+                    </button>
+                </td>
+                }
+            </tr>
+            <!-- Modal Start-->
+            <div class="modal fade" id="@mid" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="deleteModalLabel">This item will be deleted!!!!</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            Are you sure?
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+                            <button type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick='DeleteStudent(" @item.Id")'>Yes</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Modal End -->
+
+        }
+    </tbody>
+</table>
