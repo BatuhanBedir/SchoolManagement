@@ -6,9 +6,12 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using SchoolManagement.Application.DTOs;
 using SchoolManagement.Application.Features.Commands;
+using SchoolManagement.Application.Features.Commands.StudentAddLesson;
 using SchoolManagement.Application.Features.Commands.StudentCreate;
 using SchoolManagement.Application.Features.Commands.StudentDelete;
 using SchoolManagement.Application.Features.Commands.StudentUpdate;
+using SchoolManagement.Application.Features.Queries.GetAllAndIncludeStudentLesson;
+using SchoolManagement.Application.Features.Queries.GetAllLessons;
 using SchoolManagement.Application.Features.Queries.GetAllStudentsWithSchools;
 using SchoolManagement.Application.Features.Queries.GetByStudentId;
 using SchoolManagement.Application.IRepositories;
@@ -71,20 +74,20 @@ namespace SchoolManagement.WebApi.Controllers
             return Ok(studentUpdateDto);
         }
 
-        [HttpPost]
-        public async Task<IActionResult> Post([FromForm] StudentCreateDTO studentCreateDTO)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest();
-            }
-            //direk request yazılabiliyor.
-            CommandResponse commandResponse = await mediator.Send(new StudentCreateCommandsRequest(studentCreateDTO,Request));
-            if (commandResponse.Check == false) return BadRequest();
-            if (commandResponse.DbCheck < 1) return StatusCode((int)HttpStatusCode.InternalServerError);
+        //[HttpPost]
+        //public async Task<IActionResult> Post([FromForm] StudentCreateDTO studentCreateDTO)
+        //{
+        //    if (!ModelState.IsValid)
+        //    {
+        //        return BadRequest();
+        //    }
+        //    //direk request yazılabiliyor.
+        //    CommandResponse commandResponse = await mediator.Send(new StudentCreateCommandsRequest(studentCreateDTO,Request));
+        //    if (commandResponse.Check == false) return BadRequest();
+        //    if (commandResponse.DbCheck < 1) return StatusCode((int)HttpStatusCode.InternalServerError);
 
-            return StatusCode((int)HttpStatusCode.Created);
-        }
+        //    return StatusCode((int)HttpStatusCode.Created);
+        //}
 
         #region mediatR'dan önce
         //public async Task<IActionResult> Post([FromForm]StudentCreateDTO studentCreateDTO)
@@ -168,6 +171,34 @@ namespace SchoolManagement.WebApi.Controllers
         //    return dbCheck > 0 ? Ok() : StatusCode((int)HttpStatusCode.InternalServerError);
         //} 
         #endregion
+
+        [HttpGet]
+        [Route("Lesson/{id:guid}")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        public async Task<IActionResult> Lesson(Guid id)
+        {
+            GetAllIncludeStudentLessonQueryResponse getAllIncludeStudentLessonQueryResponse = await mediator.Send(new GetAllIncludeStudentLessonQueryRequest(id));
+            StudentLessonVM studentLessonVM = new StudentLessonVM();
+            studentLessonVM.Id = id;
+            studentLessonVM.Lessons = getAllIncludeStudentLessonQueryResponse.Lessons;
+            studentLessonVM.Student = getAllIncludeStudentLessonQueryResponse.Student;
+            return Ok(studentLessonVM);
+        }
+        //[HttpPost("[controller]")]
+        //[HttpPost("[action]")]
+        //[Route("Lesson/{id}")]
+        //[HttpPost]
+        [HttpPost("{id}")]
+        public async Task<IActionResult> Lesson(Guid id,Guid[] ids)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            CommandResponse commandResponse = await mediator.Send(new StudentAddLessonCommandRequest(id, ids));
+            if (commandResponse.DbCheck < 1) return StatusCode((int)HttpStatusCode.InternalServerError);
+            return Ok();
+        }
 
     }
 }

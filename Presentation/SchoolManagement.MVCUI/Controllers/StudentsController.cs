@@ -28,6 +28,13 @@ namespace SchoolManagement.MVCUI.Controllers
             ViewBag.SchoolId = new SelectList(schoolIndexVM.Schools, "Id", "Name");
             return PartialView("_UpdateStudentPartial", studentUpdateDto);
         }
+
+        [HttpPost]
+        public IActionResult GetChooseLessonPartial(StudentLessonVM studentLessonVM)
+        {
+            ViewBag.StudentLessons = studentLessonVM.Student.Lessons;
+            return PartialView("_StudentChooseLesson", studentLessonVM);
+        }
        
-    }
 }
+    }

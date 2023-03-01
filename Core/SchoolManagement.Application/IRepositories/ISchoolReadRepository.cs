@@ -10,5 +10,6 @@ namespace SchoolManagement.Application.IRepositories
 {
     public interface ISchoolReadRepository:IReadRepository<School>
     {
+        Task<School> GetByIdIncludeLessons(Guid id,bool tracking = true);
     }
 }

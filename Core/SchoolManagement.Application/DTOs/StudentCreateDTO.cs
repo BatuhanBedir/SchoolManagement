@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using SchoolManagement.Domain;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -19,6 +20,8 @@ namespace SchoolManagement.Application.DTOs
         public string LastName { get; set; }
         public string? SchoolId { get; set; }
         public IFormFile? Photo { get; set; }
+        public IEnumerable<Lesson> Lessons { get; set; }
+
         
     }
 }

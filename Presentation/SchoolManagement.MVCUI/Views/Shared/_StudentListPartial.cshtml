@@ -18,6 +18,7 @@
             @if (Model.LoggedInUserRole == "Manager"){
 
             <th>Transaction</th>
+            <th>Choose Lesson</th>
             }
         </tr>
         </thead>
@@ -55,6 +56,9 @@
                     <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="@tm" >
                         Delete
                     </button>
+                </td>
+                <td>
+                    <a id="ChooseLesson" class="btn btn-outline-primary" onclick="ChooseLesson('@item.Id')">Choose Lesson</a>
                 </td>
                 }
             </tr>

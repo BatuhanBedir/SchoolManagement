@@ -43,6 +43,133 @@ function GetStudentList() {
     });
 }
 
+function ChooseLesson(id) {
+    var myUrl = baseUrl + "Students/Lesson/"+id;
+    $.ajax({
+        url: myUrl,
+        type: "GET",
+        headers: {
+            "Authorization": 'Bearer ' + sessionStorage.getItem("token")
+        },
+        success: function (response) {
+            GetLessonListPartial(response);
+        },
+        error: function (xhr, ajaxOptions, thrownError) {
+            alert(xhr.status);
+            alert(xhr.responseText);
+        }
+    });
+}
+
+function AddLesson(id) {
+    var selectedLessons = [];
+    $('input[name="ids"]:checked').each(function () {
+        selectedLessons.push($(this).val().toString());
+    });
+    var model = {
+        LessonIds: selectedLessons
+    };
+    var myUrl = baseUrl + "Students/Lesson/" + id;
+    $.ajax({
+        url: myUrl,
+        type: "POST",
+        data: model,
+        contentType:false,
+        success: function (data, textSatus, xhr) {
+            if (xhr.status == 200) {
+                GetStudentList();
+            }
+            else {
+                $("#fail").append('<div class="alert alert-dander" role="alert">Error! Student addLesson failed. </div>');
+            }
+        },
+        error: function (xhr, ajaxOptions, thrownError) {
+            alert(xhr.status);
+            alert(xhr.responseText);
+        }
+    });
+}
+
+//function AddLesson(id) {
+//    var selectedLessons = [];
+//    $('input[name="ids"]:checked').each(function () {
+//        selectedLessons.push($(this).val());
+//    });
+//    var model = {
+//        /*id: id,*/
+//        ids: selectedLessons
+//    };
+//    var myUrl = baseUrl + "Students/" + id;
+//    $.ajax({
+//        url: myUrl,
+//        type: "POST",
+//        contentType: "application/json",
+//        dataType: "json",
+//        traditional: true,
+//        data: JSON.stringify(model),
+//        success: function (data, textStatus, xhr) {
+//            if (xhr.status == 200) {
+//                GetStudentList();
+//            }
+//            else {
+//                $("#fail").append('<div class="alert alert-danger" role="alert">Error! Student addLesson failed. </div>');
+//            }
+//        },
+//        error: function (xhr, ajaxOptions, thrownError) {
+//            alert(xhr.status);
+//            alert(xhr.responseText);
+//        }
+//    });
+//}
+//function AddLesson(id) {
+//    var selectedLessons = [];
+//    $('input[name="ids"]:checked').each(function () {
+//        selectedLessons.push($(this).val());
+//    });
+//    var jsonLessons = JSON.stringify(selectedLessons.map(x => x.toLowerCase()));
+
+//    var data = {
+//        ids: JSON.parse(jsonLessons)
+//    };
+//    var myUrl = baseUrl + "Students/" + id  ;
+//    $.ajax({
+//        url: myUrl,
+//        type: "POST",
+//        //contentType: "application/x-www-form-urlencoded",
+//        contentType: "application/json",
+//        data: JSON.stringify(data), 
+//        success: function (data, textStatus, xhr) {
+//            if (xhr.status == 200) {
+//                GetStudentList();
+//            } else {
+//                $("#fail").append('<div class="alert alert-danger" role="alert">Error! Student addLesson failed. </div>');
+//            }
+//        },
+//        error: function (xhr, ajaxOptions, thrownError) {
+//            console.log(xhr);
+//            console.log(thrownError);
+//        }
+//    });
+//}
+
+
+
+function GetLessonListPartial(lessons) {
+    var myUrl = "/Students/GetChooseLessonPartial";
+    $.ajax({
+        url: myUrl,
+        type: "Post",
+        data: lessons,
+        success: function (response) {
+            $("#letMeSee").html(response);
+        },
+        error: function (xhr, ajaxOptions, thrownError) {
+            alert(xhr.status);
+            alert(xhr.responseText);
+        }
+    });
+}
+
 function GetStudentListPartial(students) {
     var myUrl = "/Students/GetStudentsListPartial";
     $.ajax({
@@ -526,7 +653,7 @@ function Logout() {
         success: function () {
             sessionStorage.removeItem("token");
             sessionStorage.removeItem("role");
-            localStorage.clear();
+            //localStorage.clear();
             alert("Logged out successfully.");
             GoToHomeIndex();
         },

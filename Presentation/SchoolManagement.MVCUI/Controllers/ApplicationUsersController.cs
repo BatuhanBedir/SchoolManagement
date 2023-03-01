@@ -20,6 +20,7 @@ namespace SchoolManagement.MVCUI.Controllers
         {
             HttpContext.SignOutAsync();
             HttpContext.Session.Remove("email");
+            Response.Cookies.Delete(".AspNetCore.Session");
             return RedirectToAction("Index", "Home");
         }
     }

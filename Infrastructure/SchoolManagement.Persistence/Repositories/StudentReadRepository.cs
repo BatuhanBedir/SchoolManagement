@@ -26,5 +26,12 @@ namespace SchoolManagement.Persistence.Repositories
             if (!tracking) query = query.AsNoTracking();
             return await query.ToListAsync();
         }
+
+        public async Task<Student> GetByIdIncludeLessons(Guid id,bool tracking = true)
+        {
+            var query = Table.AsQueryable();
+            if (!tracking) query = query.AsNoTracking();
+            return await query.Include(st => st.Lessons).FirstOrDefaultAsync(entity => entity.Id == id);
+        }
     }
 }

@@ -11,5 +11,6 @@ namespace SchoolManagement.Application.IRepositories
     public interface IStudentReadRepository:IReadRepository<Student>
     {
         Task<List<Student>> GetAllIncludeSchoolsAsync(bool tracking = true);
+        Task<Student> GetByIdIncludeLessons(Guid id,bool tracking = true);
     }
 }
