@@ -177,6 +177,8 @@ namespace SchoolManagement.WebApi.Controllers
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<IActionResult> Lesson(Guid id)
         {
+            //DenemeVM denemeVM = new DenemeVM();
+
             GetAllIncludeStudentLessonQueryResponse getAllIncludeStudentLessonQueryResponse = await mediator.Send(new GetAllIncludeStudentLessonQueryRequest(id));
             StudentLessonVM studentLessonVM = new StudentLessonVM();
             studentLessonVM.Id = id;

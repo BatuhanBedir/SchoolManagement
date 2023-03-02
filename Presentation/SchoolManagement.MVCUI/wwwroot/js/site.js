@@ -2,6 +2,29 @@
 
 
 $(document).ready(function () {
+
+    var city = "Istanbul";
+
+    $.ajax({
+        url: "https://api.openweathermap.org/data/2.5/weather",
+        type: "GET",
+        data: {
+            q: city,
+            appid: "cf4a316f26c96c5da81c993685ad376e",
+            units: "metric"
+        },
+        success: function (data) {
+            var temperature = data.main.temp;
+            var description = data.weather[0].description;
+            var icon = "http://openweathermap.org/img/w/" + data.weather[0].icon + ".png";
+            var html = "<img src='" + icon + "' alt='" + description + "'><p>" + temperature + "°C</p><p>" + description + "</p>";
+            $('#weather').html(html);
+        },
+        error: function (xhr, status, error) {
+            console.log(error);
+        }
+    });
+
     if (sessionStorage.getItem("token") != null) {
         $('#hello').show();
         if (window.location == 'https://localhost:7241/Home/Index') {
@@ -12,18 +35,59 @@ $(document).ready(function () {
         $('#studentsButton').show();
         $('#registerButton').hide();
         $('#loginButton').hide();
+        $('#submitWeather').show();
     }
     else {
         $('#logoutButton').hide();
         $('#studentsButton').hide();
         $('#registerButton').show();
         $('#loginButton').show();
+        $('#loginButton').show();
+        $('#submitWeather').show();
     }
+
 
     if (window.location == 'https://localhost:7241/Students') {
         GetStudentList();
     }
+
+    if ($('#submitWeather').length > 0) {
+        $('#submitWeather').show();
+    } else {
+        $('#submitWeather').hide();
+    }
 });
+
+//$("#submitButton").click(function (e) {
+//    var myUrl = 'https://api.openweathermap.org/data/2.5/weather?q=' + city + '&mode=xml&q=tr&mode=xml&lang=tr&units=metric&appid=cf4a316f26c96c5da81c993685ad376e';
+//    $.ajax({
+//        type: "POST",
+//        url: myUrl,
+//        dataType: "json",
+//        success: function (result, status, xhr) {
+//            //code
+//        });
+//},
+//    error: function (xhr, status, error) {
+//        alert("Error: " + status + " " + error + " " + xhr.status + " " + xhr.statusText)
+//    }
+//});
+//});
+
+//$('#submitButton').click{
+//    var myUrl = 'https://api.openweathermap.org/data/2.5/weather?q=' + city + '&mode=xml&q=tr&mode=xml&lang=tr&units=metric&appid=cf4a316f26c96c5da81c993685ad376e';
+//    $.ajax({
+//        url: myUrl,
+//        type: "POST",
+//        success: function (response) {
+//            GetStudentListPartial(response);
+//        },
+//        error: function (xhr, ajaxOptions, thrownError) {
+//            alert(xhr.status);
+//            alert(xhr.responseText);
+//        }
+//    });
+//}
 
 function GetStudentList() {
     var myUrl = baseUrl + "Students";
@@ -44,7 +108,7 @@ function GetStudentList() {
 }
 
 function ChooseLesson(id) {
-    var myUrl = baseUrl + "Students/Lesson/"+id;
+    var myUrl = baseUrl + "Students/Lesson/" + id;
     $.ajax({
         url: myUrl,
         type: "GET",
@@ -67,7 +131,7 @@ function AddLesson(id) {
     //$('input[name="ids"]:checked').each(function () {
     //    selectedLessons.push($(this).val());
     $('input[name="ids"]:checked').each(function () {
-        formdata.append('ids',$(this).val());
+        formdata.append('ids', $(this).val());
     });
     //var model = {
     //    ids: formdata
