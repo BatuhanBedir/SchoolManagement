@@ -17,7 +17,7 @@
         </tr>
     </thead>
     <tbody>
-        <form asp-action="GetCheckBoxes" asp-route-id=@Model.Id asp-controller="Students" method="post">
+        <form id="lessonForm" method="post">
             <table class="table table-bordered table-striper table-hover">
                 <thead>
                     <tr>
@@ -31,7 +31,6 @@
                             <td>
                                 <div class="form-check">
                                     <input class="form-check-input" name="ids" type="checkbox" @(studentLessons.Lessons.Where(a=>a.Id==item.Id).Any()?"checked":"") value="@item.Id" id="@item.Id" />
-@*                                    <input class="form-check-input" name="ids" type="checkbox" @(studentLessons.Lessons.Where(a=>a.Id==item.Id).Any()?"checked":"") value="@item.Id" id="@item.Id" />*@
                                     @Html.DisplayFor(modelItem=>item.Name)
                                 </div>
                             </td>
@@ -39,7 +38,6 @@
                     }
                 </tbody>
             </table>
-            @*<input type="submit" name="submit" value="Ekle" onclick="AddLesson('@Model.Id')" class="btn btn-primary" />*@
             <input type="submit" name="submit" value="Ekle" onclick="AddLesson('@Model.Id')" class="btn btn-primary" />
         </form>
     </tbody>

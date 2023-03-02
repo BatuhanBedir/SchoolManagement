@@ -62,19 +62,23 @@ function ChooseLesson(id) {
 }
 
 function AddLesson(id) {
-    var selectedLessons = [];
+    var formdata = new FormData();
+    //var selectedLessons = [];
+    //$('input[name="ids"]:checked').each(function () {
+    //    selectedLessons.push($(this).val());
     $('input[name="ids"]:checked').each(function () {
-        selectedLessons.push($(this).val().toString());
+        formdata.append('ids',$(this).val());
     });
-    var model = {
-        LessonIds: selectedLessons
-    };
-    var myUrl = baseUrl + "Students/Lesson/" + id;
+    //var model = {
+    //    ids: formdata
+    //};
+    var myUrl = baseUrl + "Students/" + id;
     $.ajax({
         url: myUrl,
         type: "POST",
-        data: model,
-        contentType:false,
+        data: formdata,
+        contentType: false,
+        processData: false,
         success: function (data, textSatus, xhr) {
             if (xhr.status == 200) {
                 GetStudentList();
@@ -89,7 +93,29 @@ function AddLesson(id) {
         }
     });
 }
-
+//function AddLesson(id) {
+//    var formdata = new FormData($('#lessonForm')[0]);
+//    var myUrl = baseUrl + "Students/Lesson/" + id;
+//    $.ajax({
+//        url: myUrl,
+//        type: "POST",
+//        data: formdata,
+//        contentType: false,
+//        processData: false,
+//        success: function (data, textStatus, xhr) {
+//            if (xhr.status == 200) {
+//                GetStudentList();
+//            }
+//            else {
+//                $("#fail").append('<div class="alert alert-danger" role="alert">Error! Student addLesson failed. </div>');
+//            }
+//        },
+//        error: function (xhr, ajaxOptions, thrownError) {
+//            alert(xhr.status);
+//            alert(xhr.responseText);
+//        }
+//    });
+//}
 //function AddLesson(id) {
 //    var selectedLessons = [];
 //    $('input[name="ids"]:checked').each(function () {

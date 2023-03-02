@@ -74,20 +74,20 @@ namespace SchoolManagement.WebApi.Controllers
             return Ok(studentUpdateDto);
         }
 
-        //[HttpPost]
-        //public async Task<IActionResult> Post([FromForm] StudentCreateDTO studentCreateDTO)
-        //{
-        //    if (!ModelState.IsValid)
-        //    {
-        //        return BadRequest();
-        //    }
-        //    //direk request yazılabiliyor.
-        //    CommandResponse commandResponse = await mediator.Send(new StudentCreateCommandsRequest(studentCreateDTO,Request));
-        //    if (commandResponse.Check == false) return BadRequest();
-        //    if (commandResponse.DbCheck < 1) return StatusCode((int)HttpStatusCode.InternalServerError);
+        [HttpPost]
+        public async Task<IActionResult> Post([FromForm] StudentCreateDTO studentCreateDTO)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+            //direk request yazılabiliyor.
+            CommandResponse commandResponse = await mediator.Send(new StudentCreateCommandsRequest(studentCreateDTO, Request));
+            if (commandResponse.Check == false) return BadRequest();
+            if (commandResponse.DbCheck < 1) return StatusCode((int)HttpStatusCode.InternalServerError);
 
-        //    return StatusCode((int)HttpStatusCode.Created);
-        //}
+            return StatusCode((int)HttpStatusCode.Created);
+        }
 
         #region mediatR'dan önce
         //public async Task<IActionResult> Post([FromForm]StudentCreateDTO studentCreateDTO)
@@ -184,12 +184,22 @@ namespace SchoolManagement.WebApi.Controllers
             studentLessonVM.Student = getAllIncludeStudentLessonQueryResponse.Student;
             return Ok(studentLessonVM);
         }
-        //[HttpPost("[controller]")]
         //[HttpPost("[action]")]
         //[Route("Lesson/{id}")]
         //[HttpPost]
+        //[HttpPost("{id}")]
+        //public async Task<IActionResult> Lesson(Guid id,Guid[] ids)
+        //{
+        //    if (!ModelState.IsValid)
+        //    {
+        //        return BadRequest(ModelState);
+        //    }
+        //    CommandResponse commandResponse = await mediator.Send(new StudentAddLessonCommandRequest(id, ids));
+        //    if (commandResponse.DbCheck < 1) return StatusCode((int)HttpStatusCode.InternalServerError);
+        //    return Ok();
+        //}
         [HttpPost("{id}")]
-        public async Task<IActionResult> Lesson(Guid id,Guid[] ids)
+        public async Task<IActionResult> Lesson(Guid id, [FromForm] Guid[] ids)
         {
             if (!ModelState.IsValid)
             {
@@ -199,6 +209,7 @@ namespace SchoolManagement.WebApi.Controllers
             if (commandResponse.DbCheck < 1) return StatusCode((int)HttpStatusCode.InternalServerError);
             return Ok();
         }
+
 
     }
 }

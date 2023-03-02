@@ -25,7 +25,7 @@ namespace SchoolManagement.Application.Features.Commands.StudentAddLesson
         {
             CommandResponse commandResponse = new();
             Student student = await studentReadRepository.GetByIdIncludeLessons(request.Id);
-            if (student !=null)
+            if (student ==null)
             {
                 commandResponse.Found = false;
             }
