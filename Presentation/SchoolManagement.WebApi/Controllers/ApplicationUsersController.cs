@@ -88,7 +88,7 @@ namespace SchoolManagement.WebApi.Controllers
 
                 Kullanıcı rolü, token oluşturulurken SecurityTokenDescriptor sınıfında ClaimsIdentity nesnesi içinde Role adı altında bir Claim olarak eklenir. Böylece herhangi bir controller action içinde User.FindFirstValue("Role") şeklinde kullanarak kullanıcının rolüne erişilebilir.
              */
-            var role = User.FindFirstValue("Role");
+            var role = User.FindFirstValue("Role");//jwt tokeni içersindeki role key ine sahip claimin valuesunu dönüyor.(manager-viewer vs..)
             return Ok(role);
         }
     }

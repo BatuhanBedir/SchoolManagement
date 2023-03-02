@@ -127,35 +127,37 @@ function ChooseLesson(id) {
 
 function AddLesson(id) {
     var formdata = new FormData();
-    //var selectedLessons = [];
-    //$('input[name="ids"]:checked').each(function () {
-    //    selectedLessons.push($(this).val());
-    $('input[name="ids"]:checked').each(function () {
-        formdata.append('ids', $(this).val());
-    });
-    //var model = {
-    //    ids: formdata
-    //};
-    var myUrl = baseUrl + "Students/" + id;
-    $.ajax({
-        url: myUrl,
-        type: "POST",
-        data: formdata,
-        contentType: false,
-        processData: false,
-        success: function (data, textSatus, xhr) {
-            if (xhr.status == 200) {
-                GetStudentList();
+    if ($('#lessonForm').valid()) {   //client-side dan direkt server-side'a gitmeden kullanacağı hızlıca geri dönüş yapabilmeni sağlayan yer.yazılmazsa server-side'dan seker
+        //var selectedLessons = [];
+        //$('input[name="ids"]:checked').each(function () {
+        //    selectedLessons.push($(this).val());
+        $('input[name="ids"]:checked').each(function () {
+            formdata.append('ids', $(this).val());
+        });
+        //var model = {
+        //    ids: formdata
+        //};
+        var myUrl = baseUrl + "Students/" + id;
+        $.ajax({
+            url: myUrl,
+            type: "POST",
+            data: formdata,
+            contentType: false,
+            processData: false,
+            success: function (data, textSatus, xhr) {
+                if (xhr.status == 200) {
+                    GetStudentList();
+                }
+                else {
+                    $("#fail").append('<div class="alert alert-dander" role="alert">Error! Student addLesson failed. </div>');
+                }
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                alert(xhr.status);
+                alert(xhr.responseText);
             }
-            else {
-                $("#fail").append('<div class="alert alert-dander" role="alert">Error! Student addLesson failed. </div>');
-            }
-        },
-        error: function (xhr, ajaxOptions, thrownError) {
-            alert(xhr.status);
-            alert(xhr.responseText);
-        }
-    });
+        });
+    }
 }
 //function AddLesson(id) {
 //    var formdata = new FormData($('#lessonForm')[0]);
@@ -300,7 +302,7 @@ function GetUpdateStudent(id) {
         url: myUrl,
         type: "GET",
         headers: {
-            "Authorization": 'Bearer ' + sessionStorage.getItem("token")
+            "Authorization": 'Bearer ' + sessionStorage.getItem("token")    //token key'li itemda storage edilmiş olan jwt tokeni headerdan göndermek için
         },
         success: function (response) {
             var myUrl1 = baseUrl + "Schools";
@@ -718,8 +720,8 @@ function Login() {
             data: formdata,
             processData: false,
             contentType: false,
-            success: function (response) {
-                sessionStorage.setItem("token", response);
+            success: function (response) {//responsenin içinden dönen bir token var.string
+                sessionStorage.setItem("token", response);//. browserın sessionstoragenin ulaşma imkanı veriyor. browserın içindeyim. yapılarına ulaşma imkanı veriyor. bir item oluşturmak istiyorum(key,value) keyi token response benim göndereceğim token.
                 alert("Welcome");
                 GetLoggedInUserRole();
             },

@@ -1,8 +1,10 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using SchoolManagement.Application.ApplicationUserService;
 using SchoolManagement.Application.Enums;
 using SchoolManagement.Application.IServices;
 using SchoolManagement.Application.IServicesSchool;
 using SchoolManagement.Application.IToken;
+using SchoolManagement.Infrastructure.ApplicationUserService;
 using SchoolManagement.Infrastructure.Services.FileServices;
 using SchoolManagement.Infrastructure.Services.Token;
 using SchoolManagement.Infrastructure.ServiesSchool.FileServices;
@@ -21,6 +23,7 @@ namespace SchoolManagement.Infrastructure
             services.AddScoped<IFileService, FileService>();
             services.AddScoped<IFileServiceSchool, FileServiceSchool>();
             services.AddScoped<ITokenHandler, TokenHandler>();
+            services.AddScoped<IApplicationUserHandler, ApplicationUserHandler>();
         }
         //TODO:Factory pattern'e benzer bir yapı kurguladık.!!Factory pattern'i araştır
         public static void AddFileService(this IServiceCollection services, FileServiceType fileServiceType)

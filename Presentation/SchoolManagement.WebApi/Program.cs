@@ -21,6 +21,8 @@ builder.Services.AddInfrastructureServices();
 //ServiceRegistration of Infrastructure//Buradan hangi servisi inject edersem o file service ile çalýþýyor olacaðým
 builder.Services.AddFileService(FileServiceType.Local);
 
+//builder.Services.AddApplicationServices();
+
 
 //Tüm originlere, headerlara ve tüm metotlara izin verdik
 builder.Services.AddCors(options => options.AddDefaultPolicy(policy => policy.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod()));

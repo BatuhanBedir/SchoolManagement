@@ -57,7 +57,7 @@ namespace SchoolManagement.Persistence.Contexts
 
             base.OnModelCreating(builder);
         }
-        //Her entity için yapacağım bir işi her entity de ayrı ayrı yapmak yerine tek merkezden yöneteceğim. (Interceptor)
+        ////Her entity için yapacağım bir işi her entity de ayrı ayrı yapmak yerine tek merkezden yöneteceğim. (Interceptor)
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {
             //ChangeTracker: Entityler üzerinde yapılan değşiklikleri takip ederek bu verilere ulaşabilmemizi sağlar.

@@ -40,7 +40,7 @@ namespace SchoolManagement.WebApi.Controllers
         public async Task<IActionResult> Get()
         {
             List<Student> students = await mediator.Send(new GetAllStudentsQueryRequest());
-            var role = User.FindFirstValue("Role");
+            var role = User.FindFirstValue("Role");     //Role key'sinde kayıtlı valueların ilk valuesını döndürüyor
             var email = User.FindFirstValue("Email");
             StudentsIndexVM studentsIndexVM = new();
             studentsIndexVM.Students = students;
