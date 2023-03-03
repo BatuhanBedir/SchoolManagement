@@ -12,8 +12,8 @@ namespace SchoolManagement.Application.Validators
     {
         public StudentCreateValidator()
         {
-            RuleFor(a => a.FirstName).NotNull().NotEmpty().WithMessage("Gir").MinimumLength(4).WithMessage("Bu kadar kısa olamaz");
-            RuleFor(a => a.LastName).NotNull().NotEmpty().WithMessage("Gir");
+            RuleFor(a => a.FirstName).NotNull().NotEmpty().WithMessage("Girmeyi unutma").MinimumLength(4).WithMessage("Bu kadar kısa olamaz");
+            RuleFor(a => a.LastName).NotNull().NotEmpty().WithMessage("Girmeyi unutma");
         }
     }
 }

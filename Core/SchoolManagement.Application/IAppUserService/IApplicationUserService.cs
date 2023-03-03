@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using SchoolManagement.Application.DTOs;
 using SchoolManagement.Domain.Identity;
 using System;
 using System.Collections.Generic;
@@ -10,8 +11,10 @@ namespace SchoolManagement.Application.ApplicationUserService
 {
     public interface IApplicationUserHandler
     {
-        string GenerateJwtToken(string email, string role);
-        UserManager<ApplicationUser> UserManager { get; }
-        SignInManager<ApplicationUser> SignInManager { get; }
+        public Task<string?> LoginAsync(ApplicationUserLoginDto applicationUserLoginDto);
+        //string GenerateJwtToken(string email, string role);
+
+        //UserManager<ApplicationUser> UserManager { get; }
+        //SignInManager<ApplicationUser> SignInManager { get; }
     }
 }

@@ -244,8 +244,6 @@ function AddLesson(id) {
 //    });
 //}
 
-
-
 function GetLessonListPartial(lessons) {
     var myUrl = "/Students/GetChooseLessonPartial";
     $.ajax({
@@ -305,21 +303,22 @@ function GetUpdateStudent(id) {
             "Authorization": 'Bearer ' + sessionStorage.getItem("token")    //token key'li itemda storage edilmiş olan jwt tokeni headerdan göndermek için
         },
         success: function (response) {
-            var myUrl1 = baseUrl + "Schools";
-            $.ajax({
-                url: myUrl1,
-                type: "GET",
-                headers: {
-                    "Authorization": 'Bearer ' + sessionStorage.getItem("token")
-                },
-                success: function (schools) {
-                    GetStudentUpdatePartial(response, schools);
-                },
-                error: function (xhr, ajaxOptions, thrownError) {
-                    alert(xhr.status);
-                    alert(xhr.responseText);
-                }
-            });
+            GetAllSchools(response);
+            //var myUrl1 = baseUrl + "Schools";
+            //$.ajax({
+            //    url: myUrl1,
+            //    type: "GET",
+            //    headers: {
+            //        "Authorization": 'Bearer ' + sessionStorage.getItem("token")
+            //    },
+            //    success: function (schools) {
+            //        GetStudentUpdatePartial(response, schools);
+            //    },
+            //    error: function (xhr, ajaxOptions, thrownError) {
+            //        alert(xhr.status);
+            //        alert(xhr.responseText);
+            //    }
+            //});
             /*GetStudentUpdatePartial(response);*/
         },
         error: function (xhr, ajaxOptions, thrownError) {
@@ -328,6 +327,27 @@ function GetUpdateStudent(id) {
         }
     });
 }
+
+function GetAllSchools(student) {
+    var myUrl1 = baseUrl + "Schools";
+    $.ajax({
+        url: myUrl1,
+        type: "GET",
+        headers: {
+            "Authorization": 'Bearer ' + sessionStorage.getItem("token")
+        },
+        success: function (schools) {
+            GetStudentUpdatePartial(student, schools);
+        },
+        error: function (xhr, ajaxOptions, thrownError) {
+            alert(xhr.status);
+            alert(xhr.responseText);
+        }
+    });
+
+}
+
+
 //function GetStudentUpdatePartial(students) {
 //    var myUrl = "/Students/GetUpdateStudentPartial";
 //    $.ajax({
@@ -380,7 +400,9 @@ function GetUpdateStudent(id) {
 //    });
 //}
 
-function GetStudentUpdatePartial(students, schools) {
+
+//tek parametre olarak gönder.
+function GetStudentUpdatePartial(student, schools) {
 
     //var schoolIndexVM = { Schools: schools };
     //var dataToSend = {
@@ -393,7 +415,7 @@ function GetStudentUpdatePartial(students, schools) {
     $.ajax({
         url: myUrl,
         type: "POST",
-        data: { 'studentUpdateDto': students, 'schoolIndexVM': schools },
+        data: { 'studentUpdateDto': student, 'schools': schools },      //todo:birebir karşılık gelen değerler updatedto yu güncelle!
         success: function (response) {
             $("#letMeSee").html(response);
         }, error: function (xhr, ajaxOptions, thrownError) {

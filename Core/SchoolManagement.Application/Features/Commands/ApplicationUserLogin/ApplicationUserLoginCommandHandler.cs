@@ -23,6 +23,7 @@ namespace SchoolManagement.Application.Features.Commands.ApplicationUserLogin
         //    this.signInManager = signInManager;
         //    this.tokenHandler = tokenHandler;
         //}
+
         readonly IApplicationUserHandler applicationUserHandler;
 
         public ApplicationUserLoginCommandHandler(IApplicationUserHandler applicationUserHandler)
@@ -32,21 +33,24 @@ namespace SchoolManagement.Application.Features.Commands.ApplicationUserLogin
 
         public async Task<string?> Handle(ApplicationUserLoginCommandRequest request, CancellationToken cancellationToken)
         {
-            ApplicationUser applicationUser = await applicationUserHandler.UserManager.FindByEmailAsync(request.ApplicationUserLoginDto.Email);
-            if (applicationUser == null)
-            {
-                return null;
-            }
-            //false olması hakkının sonsuz olması anlamı
-            SignInResult signInResult = await applicationUserHandler.SignInManager.CheckPasswordSignInAsync(applicationUser, request.ApplicationUserLoginDto.Password, false);
-            if (!signInResult.Succeeded)
-            {
-                return null;
-            }
-            //Bu nokta mail,password doğru.Authentication başarılı
-            //Yetkilendirip tokeni döndür.
-            string token = applicationUserHandler.GenerateJwtToken(applicationUser.Email, applicationUser.ApplicationUserRole.ToString());
-            return token;
+            return await applicationUserHandler.LoginAsync(request.ApplicationUserLoginDto);
+            #region MyRegion
+            //ApplicationUser applicationUser = await applicationUserHandler.UserManager.FindByEmailAsync(request.ApplicationUserLoginDto.Email);
+            //if (applicationUser == null)
+            //{
+            //    return null;
+            //}
+            ////false olması hakkının sonsuz olması anlamı
+            //SignInResult signInResult = await applicationUserHandler.SignInManager.CheckPasswordSignInAsync(applicationUser, request.ApplicationUserLoginDto.Password, false);
+            //if (!signInResult.Succeeded)
+            //{
+            //    return null;
+            //}
+            ////Bu nokta mail,password doğru.Authentication başarılı
+            ////Yetkilendirip tokeni döndür.
+            //string token = applicationUserHandler.GenerateJwtToken(applicationUser.Email, applicationUser.ApplicationUserRole.ToString());
+            //return token; 
+            #endregion
         }
     }
 }
