@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using FluentValidation.AspNetCore;
+using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
@@ -14,6 +15,9 @@ namespace SchoolManagement.Application
         {
             services.AddMediatR(typeof(ServiceRegistration));
             services.AddAutoMapper(typeof(ServiceRegistration));
+            //services.AddFluentValidation(typeof(ServiceRegistration));
+            //services.AddMvcCore()
+            //.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<ServiceRegistration>());
         }
     }
 }

@@ -1,13 +1,25 @@
+using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using SchoolManagement.Application;
 using SchoolManagement.Application.Enums;
+using SchoolManagement.Application.Validators;
 using SchoolManagement.Infrastructure;
+using SchoolManagement.Infrastructure.Filters;
 using SchoolManagement.Persistence;
 using System.Text;
 using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
+
+
+
+//builder.Services.AddControllers().AddFluentValidation(options =>
+//{
+//    options.ImplicitlyValidateChildProperties = true;
+// options.ImplicitlyValidateRootCollectionElements = true;
+//});
+
 
 // Add services to the container.
 
@@ -21,7 +33,7 @@ builder.Services.AddInfrastructureServices();
 //ServiceRegistration of Infrastructure//Buradan hangi servisi inject edersem o file service ile çalýþýyor olacaðým
 builder.Services.AddFileService(FileServiceType.Local);
 
-//builder.Services.AddApplicationServices();
+
 
 
 //Tüm originlere, headerlara ve tüm metotlara izin verdik
@@ -45,12 +57,20 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
     };
 });
 
-builder.Services.AddControllers()
+builder.Services.AddControllers(options=>options.Filters.Add<ValidationFilter>())
+    .AddFluentValidation(configuration => configuration.RegisterValidatorsFromAssemblyContaining<StudentCreateValidator>())
+    .ConfigureApiBehaviorOptions(options => options.SuppressModelStateInvalidFilter = true)
     .AddJsonOptions(options =>
     {
         options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
         options.JsonSerializerOptions.WriteIndented = true;
     });
+
+//builder.Services.AddControllers()
+//    .AddFluentValidation(configuration => configuration.RegisterValidatorsFromAssemblyContaining<StudentCreateValidator>())
+//    .ConfigureApiBehaviorOptions(options => options.SuppressModelStateInvalidFilter = true);
+
+
 
 //claim authorization
 builder.Services.AddAuthorization(options =>

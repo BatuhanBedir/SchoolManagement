@@ -12,10 +12,10 @@ namespace SchoolManagement.Application.DTOs
     public class StudentCreateDTO
     {
        // public Guid? StudentId { get; set; }
-        [Required]
+        //[Required]
         [MaxLength(50)]
         public string FirstName { get; set; }
-        [Required]
+        //[Required]
         [MaxLength(50)]
         public string LastName { get; set; }
         public string? SchoolId { get; set; }
