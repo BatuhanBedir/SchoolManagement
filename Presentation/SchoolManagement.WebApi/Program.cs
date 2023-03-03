@@ -57,7 +57,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
     };
 });
 
-builder.Services.AddControllers(options=>options.Filters.Add<ValidationFilter>())
+builder.Services.AddControllers(options => options.Filters.Add<ValidationFilter>())
     .AddFluentValidation(configuration => configuration.RegisterValidatorsFromAssemblyContaining<StudentCreateValidator>())
     .ConfigureApiBehaviorOptions(options => options.SuppressModelStateInvalidFilter = true)
     .AddJsonOptions(options =>
@@ -65,6 +65,14 @@ builder.Services.AddControllers(options=>options.Filters.Add<ValidationFilter>()
         options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
         options.JsonSerializerOptions.WriteIndented = true;
     });
+
+//builder.Services.AddControllers()
+
+//    .AddJsonOptions(options =>
+//    {
+//        options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+//        options.JsonSerializerOptions.WriteIndented = true;
+//    });
 
 //builder.Services.AddControllers()
 //    .AddFluentValidation(configuration => configuration.RegisterValidatorsFromAssemblyContaining<StudentCreateValidator>())
